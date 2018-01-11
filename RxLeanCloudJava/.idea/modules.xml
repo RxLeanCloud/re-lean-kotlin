@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Core.iml" filepath="$PROJECT_DIR$/.idea/modules/Core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Core_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Core_main.iml" group="Core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Core_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Core_test.iml" group="Core" />
+      <module fileurl="file://$PROJECT_DIR$/RxLeanCloudJava.iml" filepath="$PROJECT_DIR$/RxLeanCloudJava.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/general.iml" filepath="$PROJECT_DIR$/.idea/modules/general.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/general_main.iml" filepath="$PROJECT_DIR$/.idea/modules/general_main.iml" group="general" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/general_test.iml" filepath="$PROJECT_DIR$/.idea/modules/general_test.iml" group="general" />
+    </modules>
+  </component>
+</project>
