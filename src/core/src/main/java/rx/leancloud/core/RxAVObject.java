@@ -4,9 +4,11 @@ import io.reactivex.*;
 import rx.leancloud.internal.*;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class RxAVObject {
+
     static AVObjectController getObjectController() {
         return AVInternalPlugins.getInstance().getObjectController();
     }
@@ -14,11 +16,20 @@ public class RxAVObject {
     private AVObjectState state = new AVObjectState();
     private Map<String, Object> localEstimatedData = new HashMap<>();
     private boolean isDirty;
-    private boolean hasFetched;
+    private boolean hasBeenFetched;
+
+    private LinkedList<Map<String, IAVFieldOperation>> operationSetQueue = new LinkedList<>();
+
+    protected Map<String, IAVFieldOperation> getCurrentOperations() {
+        synchronized (this) {
+            return this.operationSetQueue.getLast();
+        }
+    }
 
     public RxAVObject(String className) {
         this.state.className = className;
         this.isDirty = true;
+        this.operationSetQueue.addLast(new HashMap<>());
     }
 
     public String getObjectId() {
@@ -37,17 +48,21 @@ public class RxAVObject {
         if (value == null) {
             this.performOperation(key, AVDeleteOperation.getInstance());
         } else {
-            this.performOperation(key, new AVSetOperation(value));
+            boolean valid = getObjectController().getObjectEncoder().isValidType(value);
+            if (valid) {
+                this.performOperation(key, new AVSetOperation(value));
+            }
         }
     }
 
     public Single<Boolean> saveRx() {
-        return Single.create((source) -> {
+        return AVTaskQueue.once(() -> {
             try {
-                source.onSuccess(this.saveInternal());
+                return this.saveInternal();
             } catch (RxAVException e) {
-                source.onError(e);
+                e.printStackTrace();
             }
+            return false;
         });
     }
 
@@ -64,8 +79,10 @@ public class RxAVObject {
     }
 
     protected boolean saveInternal() throws RxAVException {
+        if (!this.isDirty)
+            return true;
         this.state.serverData = this.localEstimatedData;
-        AVObjectState serverState = getObjectController().save(this.state);
+        AVObjectState serverState = getObjectController().save(this.state, this.getCurrentOperations());
         if (serverState == null)
             return false;
         this.handleSaved(serverState);
@@ -85,12 +102,19 @@ public class RxAVObject {
         } else {
             this.localEstimatedData.remove(key);
         }
+
+        Map<String, IAVFieldOperation> currentOperations = this.getCurrentOperations();
+        IAVFieldOperation oldOperation = currentOperations.get(key);
+        IAVFieldOperation newOperation = operation.mergeWithPrevious(oldOperation);
+        currentOperations.put(key, newOperation);
+
+        this.isDirty = currentOperations.size() > 0;
     }
 
     public static RxAVObject createWithoutData(String className, String objectId) {
         RxAVObject avObject = new RxAVObject(className);
         avObject.setObjectId(objectId);
-        avObject.hasFetched = false;
+        avObject.hasBeenFetched = false;
         return avObject;
     }
 }

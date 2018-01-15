@@ -19,6 +19,6 @@ public class AVSetOperation implements IAVFieldOperation {
 
     @Override
     public Object apply(Object oldValue, String key) {
-        return this;
+        return this.value;
     }
 }

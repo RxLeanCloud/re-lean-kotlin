@@ -2,6 +2,11 @@ package rx.leancloud.core;
 
 import rx.leancloud.internal.AVCommand;
 import rx.leancloud.internal.AVCommandResponse;
+import rx.leancloud.internal.AVInternalPlugins;
+import rx.leancloud.internal.IAVCommandRunner;
+
+import java.io.IOException;
+import java.util.Map;
 
 public class RxAVClient {
     private static RxAVClient ourInstance = new RxAVClient();
@@ -10,10 +15,20 @@ public class RxAVClient {
         return ourInstance;
     }
 
+    public RxAVClient() {
+        this.commandRunner = AVInternalPlugins.getInstance().getHttpCommandRunner();
+    }
+
     private LeanCloudApp currentApp;
 
     public LeanCloudApp getCurrentApp() {
         return currentApp;
+    }
+
+    private IAVCommandRunner commandRunner;
+
+    public IAVCommandRunner getCommandRunner() {
+        return this.commandRunner;
     }
 
     public void setCurrentApp(LeanCloudApp currentApp) {
@@ -22,6 +37,27 @@ public class RxAVClient {
 
     public String getSDKVersion() {
         return "0.1.0";
+    }
+
+    public Map<String, Object> runCommand(String relativeUrl, String method, Map<String, Object> data) {
+        AVCommand command = new AVCommand();
+        command.jsonData = data;
+        command.method = method;
+        command.url = this.getUrl(relativeUrl);
+
+        try {
+            AVCommandResponse response = this.getCommandRunner().execute(command);
+            return response.jsonBody();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (RxAVException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    protected String getUrl(String relativeUrl) {
+        return RxAVClient.getInstance().getCurrentApp().getUrl(relativeUrl);
     }
 
 

@@ -2,6 +2,8 @@ import io.reactivex.schedulers.Schedulers;
 import rx.leancloud.core.RxAVObject;
 import org.junit.Test;
 
+import java.util.Date;
+
 public class RxAVObjectTest extends TestBase {
 
     @Test
@@ -16,7 +18,7 @@ public class RxAVObjectTest extends TestBase {
     public void rxSave() {
         RxAVObject todo = new RxAVObject("JavaTodo");
         todo.set("foo", "rxBar");
-
+        todo.set("fooDate",new Date());
         todo.saveRx().observeOn(Schedulers.computation()).subscribe(System.out::println, Throwable::printStackTrace);
     }
 

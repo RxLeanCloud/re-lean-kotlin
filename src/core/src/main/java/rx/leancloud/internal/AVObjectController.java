@@ -23,8 +23,12 @@ public class AVObjectController {
         this.commandRunner = commandRunner;
     }
 
-    public AVObjectState save(AVObjectState state) throws RxAVException {
-        AVCommand command = this.packRequest(state);
+    public IAVEncoder getObjectEncoder() {
+        return objectEncoder;
+    }
+
+    public AVObjectState save(AVObjectState state, Map<String, IAVFieldOperation> operations) throws RxAVException {
+        AVCommand command = this.packRequest(state, operations);
         try {
             AVCommandResponse response = this.commandRunner.execute(command);
             return this.unpackResponse(response);
@@ -34,6 +38,15 @@ public class AVObjectController {
             throw e;
         }
         return null;
+    }
+
+    public Map<String, Object> encodeOperations(Map<String, IAVFieldOperation> operations) {
+        Map<String, Object> result = new HashMap<>();
+        operations.forEach((k, v) -> {
+            Object encodedValue = this.getObjectEncoder().encode(v);
+            result.put(k, encodedValue);
+        });
+        return result;
     }
 
     public void removeReadOnlyFields(AVObjectState state) {
@@ -61,18 +74,12 @@ public class AVObjectController {
         relationKeys.forEach((key) -> state.serverData.remove(key));
     }
 
-    public AVCommand packRequest(AVObjectState state) {
+    public AVCommand packRequest(AVObjectState state, Map<String, IAVFieldOperation> operations) {
         AVObjectState clonedState = state.mutatedClone();
         this.removeReadOnlyFields(clonedState);
         this.removeRelationFields(clonedState);
 
-        Map<String, Object> mutableEncoded = new HashMap<>();
-        for (Map.Entry<String, Object> entry : state.serverData.entrySet()) {
-            String key = entry.getKey();
-            Object value = entry.getValue();
-            Object encodedValue = this.objectEncoder.encode(value);
-            mutableEncoded.put(key, encodedValue);
-        }
+        Map<String, Object> mutableEncoded = this.encodeOperations(operations);
         AVCommand command = new AVCommand();
         String relativeUrl = clonedState.objectId == null ? "/classes/" + clonedState.className : "/classes/" + clonedState.className + "/" + clonedState.objectId;
 

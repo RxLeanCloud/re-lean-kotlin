@@ -18,6 +18,8 @@ public class AVEncoder implements IAVEncoder {
             return this.encodeAVObject((RxAVObject) value);
         } else if (value instanceof Date) {
             return this.encodeDate((Date) value);
+        } else if (value instanceof IAVFieldOperation) {
+            return ((IAVFieldOperation) value).encode();
         }
         return value;
     }
@@ -47,6 +49,7 @@ public class AVEncoder implements IAVEncoder {
                 || value instanceof Float
                 || value instanceof Double
                 || value instanceof Map
+                || value instanceof HashMap
                 || value instanceof ArrayList
                 || value instanceof String;
     }

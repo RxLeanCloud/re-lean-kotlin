@@ -14,6 +14,7 @@ public class AVDecoder implements IAVDecoder {
     public static AVDecoder getInstance() {
         return ourInstance;
     }
+
     @Override
     public Object decode(Object value) {
         if (value instanceof Map) {
