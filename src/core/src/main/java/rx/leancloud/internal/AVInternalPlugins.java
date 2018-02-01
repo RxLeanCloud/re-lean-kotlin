@@ -23,6 +23,15 @@ public class AVInternalPlugins {
         return this.objectController;
     }
 
+    private AVObjectSubclassingController subclassingController;
+
+    public AVObjectSubclassingController getSubclassingController() {
+        if (subclassingController == null) {
+            this.subclassingController = new AVObjectSubclassingController();
+        }
+        return this.subclassingController;
+    }
+
     private IAVEncoder avEncoder;
 
     public IAVEncoder getAVEncoder() {

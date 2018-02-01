@@ -21,6 +21,14 @@ public class AVObjectState {
         return state;
     }
 
+    public void apply(AVObjectState other) {
+        this.className = other.className;
+        this.objectId = other.objectId;
+        this.createdAt = other.createdAt;
+        this.updatedAt = other.updatedAt;
+        this.serverData = other.serverData;
+    }
+
     public void mergeInternalFields(AVObjectState other) {
         if (other.objectId != null) {
             this.objectId = other.objectId;

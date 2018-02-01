@@ -19,8 +19,6 @@ public class AVCommand extends HttpRequest {
     @Override
     public InputStream getBody() {
         try {
-
-
             String jsonString = RxAVCorePlugins.getInstance().getJson().encode(this.jsonData);
             InputStream stringStream = new ByteArrayInputStream(jsonString.getBytes(StandardCharsets.UTF_8.name()));
 
@@ -36,7 +34,6 @@ public class AVCommand extends HttpRequest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         return super.getBody();
     }

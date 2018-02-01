@@ -7,9 +7,21 @@ import java.util.SplittableRandom;
 public final class LeanCloudApp {
 
     public enum AVRegion {
+        /**
+         * 中国华北节点
+         */
         Public_North_CN,
+        /**
+         * 中国华东节点
+         */
         Public_East_CN,
+        /**
+         * 美国节点
+         */
         Public_North_US,
+        /**
+         * 私有云节点
+         */
         Private_Custom;
 
         static final String api_public_north_cn = "api.leancloud.cn";

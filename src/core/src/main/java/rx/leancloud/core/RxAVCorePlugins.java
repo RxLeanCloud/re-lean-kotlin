@@ -2,6 +2,7 @@ package rx.leancloud.core;
 
 import rx.leancloud.internal.IHttpClient;
 import rx.leancloud.internal.IJSONClient;
+import rx.leancloud.internal.IKVStorage;
 
 public class RxAVCorePlugins {
     private static RxAVCorePlugins ourInstance = new RxAVCorePlugins();
@@ -33,4 +34,12 @@ public class RxAVCorePlugins {
         return json;
     }
 
+    private IKVStorage kvStorage;
+
+    public void setKVStorage(IKVStorage kvStorage) {
+        this.kvStorage = kvStorage;
+    }
+    public IKVStorage getKVStorage() {
+        return kvStorage;
+    }
 }

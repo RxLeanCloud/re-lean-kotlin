@@ -39,7 +39,6 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/android" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/general" />
           </set>
@@ -175,14 +174,19 @@
       </item>
     </group>
   </component>
+  <component name="ProjectDictionaryState">
+    <dictionary name="wujun">
+      <words>
+        <w>leancloud</w>
+        <w>penta</w>
+      </words>
+    </dictionary>
+  </component>
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/RxLeanCloudJava.iml" filepath="$PROJECT_DIR$/RxLeanCloudJava.iml" />
       <module fileurl="file://$PROJECT_DIR$/RxLeanCloudJava_main.iml" filepath="$PROJECT_DIR$/RxLeanCloudJava_main.iml" group="RxLeanCloudJava" />
       <module fileurl="file://$PROJECT_DIR$/RxLeanCloudJava_test.iml" filepath="$PROJECT_DIR$/RxLeanCloudJava_test.iml" group="RxLeanCloudJava" />
-      <module fileurl="file://$PROJECT_DIR$/android/android.iml" filepath="$PROJECT_DIR$/android/android.iml" group="android" />
-      <module fileurl="file://$PROJECT_DIR$/android/android_main.iml" filepath="$PROJECT_DIR$/android/android_main.iml" group="android" />
-      <module fileurl="file://$PROJECT_DIR$/android/android_test.iml" filepath="$PROJECT_DIR$/android/android_test.iml" group="android" />
       <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" group="core" />
       <module fileurl="file://$PROJECT_DIR$/core/core_main.iml" filepath="$PROJECT_DIR$/core/core_main.iml" group="core" />
       <module fileurl="file://$PROJECT_DIR$/core/core_test.iml" filepath="$PROJECT_DIR$/core/core_test.iml" group="core" />
@@ -280,18 +284,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsDirectoryMappings">
-    <mapping directory="$PROJECT_DIR$/../.." vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
   </component>
   <component name="libraryTable">
-    <library name="Gradle: com.alibaba:fastjson:1.1.67.android">
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.alibaba/fastjson/1.1.67.android/66b679b7105fc92e5ea42bedc02a0581ad09336c/fastjson-1.1.67.android.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.alibaba/fastjson/1.1.67.android/a25bece18aca55602cd78b05309ce2a54fd4935c/fastjson-1.1.67.android-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Gradle: com.alibaba:fastjson:1.2.44">
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.alibaba/fastjson/1.2.44/1dbb13ed90bab048d51559dbb17374d1bbf096fc/fastjson-1.2.44.jar!/" />
@@ -319,15 +314,6 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.13.0/f4c91e12121af963e3ef76e81c82aa75ba6e8533/okio-1.13.0-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Gradle: io.reactivex.rxjava2:rxandroid:aar:2.0.1">
-      <CLASSES>
-        <root url="file://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.reactivex.rxjava2/rxandroid/2.0.1/c192035f52624f35143cadfc9d5832cd621319eb/rxandroid-2.0.1.aar" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.reactivex.rxjava2/rxandroid/2.0.1/67244b35fe87c5899f87151f8b63981b7c9b37db/rxandroid-2.0.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: io.reactivex.rxjava2:rxjava:2.1.8">

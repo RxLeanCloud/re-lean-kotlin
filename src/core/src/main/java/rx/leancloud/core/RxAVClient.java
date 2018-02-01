@@ -2,10 +2,11 @@ package rx.leancloud.core;
 
 import rx.leancloud.internal.AVCommand;
 import rx.leancloud.internal.AVCommandResponse;
-import rx.leancloud.internal.AVInternalPlugins;
+import rx.leancloud.internal.AVHttpCommandRunner;
 import rx.leancloud.internal.IAVCommandRunner;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class RxAVClient {
@@ -16,27 +17,35 @@ public class RxAVClient {
     }
 
     public RxAVClient() {
-        this.commandRunner = AVInternalPlugins.getInstance().getHttpCommandRunner();
     }
 
-    private LeanCloudApp currentApp;
+    private Map<String, LeanCloudApp> remoteApps = new HashMap<>();
+
+    public Map<String, LeanCloudApp> getRemoteApps() {
+        return remoteApps;
+    }
 
     public LeanCloudApp getCurrentApp() {
-        return currentApp;
+        return this.remoteApps.get("default");
     }
 
-    private IAVCommandRunner commandRunner;
+    private IAVCommandRunner httpCommandRunner;
 
-    public IAVCommandRunner getCommandRunner() {
-        return this.commandRunner;
+    public IAVCommandRunner getHttpCommandRunner() {
+        if (this.httpCommandRunner == null) {
+            this.httpCommandRunner = new AVHttpCommandRunner(RxAVCorePlugins.getInstance().getHttpClient());
+        }
+        return this.httpCommandRunner;
     }
 
-    public void setCurrentApp(LeanCloudApp currentApp) {
-        this.currentApp = currentApp;
-    }
 
     public String getSDKVersion() {
         return "0.1.0";
+    }
+
+    public RxAVClient add(LeanCloudApp app, String shortName) {
+        this.getRemoteApps().put(shortName, app);
+        return RxAVClient.getInstance();
     }
 
     public Map<String, Object> runCommand(String relativeUrl, String method, Map<String, Object> data) {
@@ -46,7 +55,7 @@ public class RxAVClient {
         command.url = this.getUrl(relativeUrl);
 
         try {
-            AVCommandResponse response = this.getCommandRunner().execute(command);
+            AVCommandResponse response = this.getHttpCommandRunner().execute(command);
             return response.jsonBody();
         } catch (IOException e) {
             e.printStackTrace();
